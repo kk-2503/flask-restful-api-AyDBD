@@ -46,7 +46,8 @@ def create():
             cur.execute('INSERT INTO books (title, author, pages_num, review)'
                         'VALUES (%s, %s, %s, %s)',
                         (title, author, pages_num, review))
-        except psycopg2.Error as e:
+        except (Exception, psycopg2.Error) as error :
+            print ("Error while inserting a book: ", error)
             pass
         conn.commit()
         cur.close()

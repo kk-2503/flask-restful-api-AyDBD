@@ -67,6 +67,24 @@ def api(number):
         retValue += "{} <br /> ".format(x[0])
 
       return retValue
+
+
+    elif (number == 4):
+      id = request.args.get('id', type = int)
+      try:
+        cur.execute('SELECT AVG(temperature) AS avg_temp, date'
+                    ' FROM temperatures WHERE room_id=%s GROUP BY(date) ORDER BY(avg_temp) DESC;',
+                    (id, )
+                   )
+      except (Exception, psycopg2.Error) as error :
+        print ("Error while performing API #4: ", error)
+        pass
+
+      retValue = "Avg Temp   Date <br /> "
+      for x in cur.fetchall():
+        retValue += "{}   {} <br /> ".format(round(x[0], 2), x[1])
+
+      return retValue
     cur.close()
     conn.close()
 

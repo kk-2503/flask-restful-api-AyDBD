@@ -2,6 +2,7 @@ import os
 import psycopg2
 from flask import Flask
 from flask import request
+from flask import jsonify
 app = Flask(__name__)
 
 def get_db_conn():
@@ -85,6 +86,25 @@ def api(number):
         retValue += "{}   {} <br /> ".format(round(x[0], 2), x[1])
 
       return retValue
+
+
+    elif (number == 5):
+      id = request.args.get('id', type = int)
+      try:
+        cur.execute('SELECT MIN(temperature) AS min_temp, name'
+                    ' FROM temperatures NATURAL JOIN rooms WHERE rooms.id=%s GROUP BY(name);',
+                    (id, )
+                   )
+      except (Exception, psycopg2.Error) as error :
+        print ("Error while performing API #5: ", error)
+        pass
+
+      # retValue = "Avg Temp   Date <br /> "
+      retValue = ""
+      for x in cur.fetchall():
+        retValue += "min_temp: {}, name: {}".format(round(x[0], 2), x[1])
+
+      return jsonify(retValue)
     cur.close()
     conn.close()
 

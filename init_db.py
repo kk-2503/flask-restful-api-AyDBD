@@ -13,7 +13,7 @@ try:
     cur = conn.cursor()
 
     # Execute a command: this creates a new table
-    # cur.execute('DROP TABLE IF EXISTS books;')
+    cur.execute('DROP TABLE IF EXISTS books;')
     try:
         cur.execute('CREATE TABLE books (id serial PRIMARY KEY,'
                                         'title varchar (150) NOT NULL,'
@@ -35,7 +35,7 @@ try:
                     'Another great classic!')
                     )
     except (Exception, psycopg2.Error) as error :
-        print ("Error while inserting a book: ", error)
+        print ("Error while inserting a book 1: ", error)
         pass
 
     try:
@@ -47,7 +47,7 @@ try:
                 'A novel of strong contemporary national significance.')
                 )
     except (Exception, psycopg2.Error) as error :
-        print ("Error while inserting a book: ", error)
+        print ("Error while inserting a book 2: ", error)
         pass
 
     try:
@@ -59,7 +59,79 @@ try:
                 'A zesty collection of humorous light verse.')
                 )
     except (Exception, psycopg2.Error) as error :
-        print ("Error while inserting a book: ", error)
+        print ("Error while inserting a book 3: ", error)
+        pass
+
+    try:
+        cur.execute('INSERT INTO books (title, author, pages_num, review)'
+                'VALUES (%s, %s, %s, %s)',
+                ('Mortadelo y Filemón',
+                'Ibáñez',
+                50,
+                'Clásico del cómic español.')
+                )
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while inserting a book 4: ", error)
+        pass
+
+    try:
+        cur.execute('INSERT INTO books (title, author, pages_num, review)'
+                'VALUES (%s, %s, %s, %s)',
+                ('Marina',
+                'Carlos Ruiz Zafón',
+                150,
+                'Está escrito de una forma increíble, la forma de narrar de Ruiz Zafón es muy elegante.')
+                )
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while inserting a book 5: ", error)
+        pass
+
+    try:
+        cur.execute('INSERT INTO books (title, author, pages_num, review)'
+                'VALUES (%s, %s, %s, %s)',
+                ('HARRY POTTER Y LA PIEDRA FILOSOFAL',
+                'J. K. Rowling',
+                254,
+                ' Gran novela de fantasía juvenil.')
+                )
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while inserting a book 6: ", error)
+        pass
+
+    try:
+        cur.execute('INSERT INTO books (title, author, pages_num, review)'
+                'VALUES (%s, %s, %s, %s)',
+                ('El día que se perdió la cordura',
+                'Javier Castillo',
+                194,
+                'La palabra que mejor pudiese definir mejor a la novela es “tensión”.')
+                )
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while inserting a book 7: ", error)
+        pass
+
+    try:
+        cur.execute('INSERT INTO books (title, author, pages_num, review)'
+                'VALUES (%s, %s, %s, %s)',
+                ('El enigma de la habitación 622 ',
+                'J. Dicker',
+                342,
+                'es una comedia de enredo con máscara de thriller, modelo de literatura muy atrayente por unir dos géneros, ambos por sí solos, ya muy leídos.')
+                )
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while inserting a book 8: ", error)
+        pass
+
+    try:
+        cur.execute('INSERT INTO books (title, author, pages_num, review)'
+                'VALUES (%s, %s, %s, %s)',
+                ('El libro del sepulturero',
+                'Olvier Pötzsch',
+                231,
+                'Es una buena novela policíaca')
+                )
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while inserting a book 9: ", error)
         pass
 
     conn.commit()

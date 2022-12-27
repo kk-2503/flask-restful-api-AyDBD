@@ -1,6 +1,7 @@
 import os
 import psycopg2
 from flask import Flask
+from flask import request
 app = Flask(__name__)
 
 def get_db_conn():
@@ -32,6 +33,38 @@ def api(number):
       retValue = "Avg Temp\tRoom ID <br /> "
       for x in cur.fetchall():
         retValue += "{} \t {} <br /> ".format(round(x[0], 2), x[1])
+
+      return retValue
+
+
+    elif (number == 2):
+      try:
+        cur.execute('SELECT MAX(temperature) AS max_temp, room_id'
+                    ' FROM temperatures GROUP BY(room_id) ORDER BY(max_temp) DESC;')
+      except (Exception, psycopg2.Error) as error :
+        print ("Error while performing API #2: ", error)
+        pass
+
+      retValue = "Max Temp\tRoom ID <br /> "
+      for x in cur.fetchall():
+        retValue += "{} \t {} <br /> ".format(round(x[0], 2), x[1])
+
+      return retValue
+
+
+    elif (number == 3):
+      id = request.args.get('id', type = int)
+      try:
+        cur.execute('SELECT name FROM rooms WHERE id = %s;',
+                    (id, )
+                   )
+      except (Exception, psycopg2.Error) as error :
+        print ("Error while performing API #3: ", error)
+        pass
+
+      retValue = "Room Name <br /> "
+      for x in cur.fetchall():
+        retValue += "{} <br /> ".format(x[0])
 
       return retValue
     cur.close()
